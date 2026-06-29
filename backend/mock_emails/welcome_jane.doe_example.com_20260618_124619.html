@@ -1,0 +1,192 @@
+<!--
+FROM: Mock Mail System
+TO: jane.doe@example.com
+SUBJECT: Welcome to the Team, Jane Doe!
+DATE: 2026-06-18T12:46:19.052502
+-->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to the Team</title>
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+    .email-container {
+      max-width: 600px;
+      margin: 40px auto;
+      background-color: #ffffff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03), 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+      border: 1px solid #e2e8f0;
+    }
+    .email-header {
+      background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+      padding: 32px 24px;
+      text-align: center;
+    }
+    .email-header h1 {
+      color: #ffffff;
+      margin: 0;
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+    }
+    .email-body {
+      padding: 40px 32px;
+    }
+    .welcome-text {
+      font-size: 20px;
+      font-weight: 600;
+      color: #0f172a;
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    .intro-paragraph {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #475569;
+      margin-bottom: 32px;
+    }
+    .credentials-card {
+      background-color: #f1f5f9;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 32px;
+      border: 1px solid #e2e8f0;
+    }
+    .credentials-header {
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #64748b;
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    .credential-row {
+      margin-bottom: 12px;
+      font-size: 15px;
+    }
+    .credential-row:last-child {
+      margin-bottom: 0;
+    }
+    .credential-label {
+      font-weight: 600;
+      color: #334155;
+      display: inline-block;
+      width: 140px;
+    }
+    .credential-value {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      background-color: #e2e8f0;
+      padding: 3px 8px;
+      border-radius: 4px;
+      color: #0f172a;
+      font-size: 14px;
+    }
+    .button-container {
+      text-align: center;
+      margin: 32px 0;
+    }
+    .action-button {
+      display: inline-block;
+      background-color: #4f46e5;
+      color: #ffffff !important;
+      font-weight: 600;
+      font-size: 16px;
+      text-decoration: none;
+      padding: 14px 32px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2);
+      transition: background-color 0.2s ease;
+    }
+    .action-button:hover {
+      background-color: #4338ca;
+    }
+    .info-footer {
+      border-top: 1px solid #f1f5f9;
+      padding-top: 24px;
+      font-size: 14px;
+      line-height: 1.5;
+      color: #64748b;
+    }
+    .info-footer p {
+      margin: 0 0 12px 0;
+    }
+    .info-footer p:last-child {
+      margin-bottom: 0;
+    }
+    .email-footer {
+      background-color: #f8fafc;
+      padding: 24px;
+      text-align: center;
+      font-size: 12px;
+      color: #94a3b8;
+      border-top: 1px solid #e2e8f0;
+    }
+    .email-footer p {
+      margin: 0 0 8px 0;
+    }
+    .email-footer p:last-child {
+      margin-bottom: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="email-container">
+    <div class="email-header">
+      <h1>HR Tool Portal</h1>
+    </div>
+    <div class="email-body">
+      <h2 class="welcome-text">Welcome to the Team, Jane Doe!</h2>
+      <p class="intro-paragraph">We are thrilled to welcome you to the company! Your employee profile and system account have been set up and are ready for access.</p>
+      
+      <div class="credentials-card">
+        <div class="credentials-header">Your Login Credentials</div>
+        <div class="credential-row">
+          <span class="credential-label">Portal Link:</span>
+          <a href="http://localhost:5173/login" style="color: #4f46e5; font-weight: 500;">http://localhost:5173/login</a>
+        </div>
+        <div class="credential-row">
+          <span class="credential-label">Username/Email:</span>
+          <span class="credential-value">jane.doe@example.com</span>
+        </div>
+        <div class="credential-row">
+          <span class="credential-label">Temp Password:</span>
+          <span class="credential-value" style="font-weight: bold; letter-spacing: 0.05em;">Welcome@2026!</span>
+        </div>
+      </div>
+
+      <div class="credential-row" style="margin-bottom: 32px; font-size: 15px; color: #475569;">
+        <span style="font-weight: 600; color: #334155;">Assigned Profile Details:</span><br>
+        <span style="display: inline-block; margin-top: 6px;">
+          <strong>Role:</strong> Software Engineer<br>
+          <strong>Department:</strong> Engineering
+        </span>
+      </div>
+
+      <div class="button-container">
+        <a href="http://localhost:5173/login" class="action-button">Sign In to Portal</a>
+      </div>
+
+      <div class="info-footer">
+        <p><strong>Next Steps:</strong> For security purposes, please log in using your temporary password and update it immediately via your Account Profile Settings.</p>
+        <p>If you encounter any issues logging in, please contact the HR operations team.</p>
+      </div>
+    </div>
+    <div class="email-footer">
+      <p>This is an automated system notification. Please do not reply directly to this email.</p>
+      <p>&copy; 2026 HR Tool Portal. All rights reserved.</p>
+    </div>
+  </div>
+</body>
+</html>

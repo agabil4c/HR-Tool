@@ -1,0 +1,168 @@
+<!--
+FROM: Mock Mail System
+TO: bob.miller@example.com
+SUBJECT: Profile Update Request Rejected
+DATE: 2026-06-18T12:54:53.114469
+CATEGORY: profile_update_processed
+-->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile Update Request Rejected</title>
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+    .email-container {
+      max-width: 600px;
+      margin: 40px auto;
+      background-color: #ffffff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03), 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+      border: 1px solid #e2e8f0;
+    }
+    .email-header {
+      background: linear-gradient(135deg, #dc2626 0%, #f43f5e 100%);
+      padding: 32px 24px;
+      text-align: center;
+    }
+    .email-header h1 {
+      color: #ffffff;
+      margin: 0;
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+    }
+    .email-body {
+      padding: 40px 32px;
+    }
+    .welcome-text {
+      font-size: 20px;
+      font-weight: 600;
+      color: #0f172a;
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    .intro-paragraph {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #475569;
+      margin-bottom: 24px;
+    }
+    .details-card {
+      background-color: #f1f5f9;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+      border: 1px solid #e2e8f0;
+    }
+    .details-header {
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #64748b;
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+    .detail-row {
+      margin-bottom: 12px;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+    .detail-row:last-child {
+      margin-bottom: 0;
+    }
+    .detail-label {
+      font-weight: 600;
+      color: #334155;
+      display: inline-block;
+      width: 140px;
+    }
+    .detail-value {
+      color: #0f172a;
+    }
+    .button-container {
+      text-align: center;
+      margin: 32px 0;
+    }
+    .action-button {
+      display: inline-block;
+      background-color: #dc2626;
+      color: #ffffff !important;
+      font-weight: 600;
+      font-size: 16px;
+      text-decoration: none;
+      padding: 14px 32px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px -1px rgba(220, 38, 38, 0.2);
+      transition: background-color 0.2s ease;
+    }
+    .info-footer {
+      border-top: 1px solid #f1f5f9;
+      padding-top: 24px;
+      font-size: 14px;
+      line-height: 1.5;
+      color: #64748b;
+    }
+    .email-footer {
+      background-color: #f8fafc;
+      padding: 24px;
+      text-align: center;
+      font-size: 12px;
+      color: #94a3b8;
+      border-top: 1px solid #e2e8f0;
+    }
+    .email-footer p {
+      margin: 0 0 8px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="email-container">
+    <div class="email-header">
+      <h1>HR Tool Portal</h1>
+    </div>
+    <div class="email-body">
+      <h2 class="welcome-text">Profile Update Request Rejected</h2>
+      <p class="intro-paragraph">Your profile update request has been actioned by Alice HR.</p>
+      
+      
+    <div class="details-card">
+      <div class="details-header">Action Result</div>
+      <div class="detail-row">
+        <span class="detail-label">Status:</span>
+        <span class="detail-value" style="font-weight: bold; color: #dc2626">Rejected</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Fields Handled:</span>
+        <span class="detail-value">personalEmail, bankAccount</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">Reviewer Notes:</span>
+        <span class="detail-value">"The bank routing number provided does not appear to match active SWIFT standards. Please re-submit."</span>
+      </div>
+    </div>
+    
+      
+        <div class="button-container">
+          <a href="http://localhost:5173/my-profile" class="action-button">View Profile Status</a>
+        </div>
+        
+      
+    </div>
+    <div class="email-footer">
+      <p>This is an automated system notification. Please do not reply directly to this email.</p>
+      <p>&copy; 2026 HR Tool Portal. All rights reserved.</p>
+    </div>
+  </div>
+</body>
+</html>
