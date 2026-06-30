@@ -55,7 +55,8 @@
   color-scheme: light;
 }
 
-[data-theme='dark'] {
+[data-theme='dark'],
+.dark {
   color-scheme: dark;
 
   --color-body-bg: var(--color-zinc-950);
@@ -77,6 +78,14 @@
   --color-default-950: var(--color-zinc-50);
 
   --topbar-background: var(--color-default-100);
+
+  /* Sidenav overrides for dark container */
+  --sidenav-background: var(--color-zinc-900);
+  --sidenav-item-color: var(--color-zinc-400);
+  --sidenav-item-active-color: var(--color-zinc-50);
+  --sidenav-item-active-bg: var(--color-zinc-800);
+  --sidenav-item-hover-color: var(--color-zinc-300);
+  --sidenav-item-hover-bg: var(--color-zinc-800);
 }
 
 /* Light Menu */

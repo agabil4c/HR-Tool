@@ -144,7 +144,7 @@ const Topbar = () => {
     tabsProfile: notificationsList.filter(n => n.type === 'profile')
   };
 
-  return <div className="app-header min-h-topbar-height flex items-center sticky top-0 z-30 bg-(--topbar-background) border-b border-default-200">
+  return <div className="app-header min-h-topbar-height flex items-center sticky top-0 z-30 bg-(--topbar-background) border-b border-default-200 dark">
       <div className="w-full flex items-center justify-between px-6">
         <div className="flex items-center gap-5">
           <SidenavToggle />
