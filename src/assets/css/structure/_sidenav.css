@@ -411,16 +411,15 @@ html[data-sidenav-size='hidden'] {
 }
 
 html[data-theme='dark'],
-html[data-sidenav-color='dark'] {
-  .app-menu {
-    .logo-box {
-      .logo-light {
-        display: block;
-      }
+html[data-sidenav-color='dark'],
+.dark {
+  .logo-box {
+    .logo-light {
+      display: block;
+    }
 
-      .logo-dark {
-        display: none;
-      }
+    .logo-dark {
+      display: none;
     }
   }
 }
