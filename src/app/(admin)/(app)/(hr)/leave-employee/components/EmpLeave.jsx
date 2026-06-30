@@ -97,7 +97,7 @@ const statusClass = {
   Declined: 'inline-flex items-center gap-x-1.5 py-0.5 px-2.5 rounded text-xs font-medium bg-danger/10 text-danger'
 };
 const EmpLeave = () => {
-  return 
+  return (
     <div className="grid grid-cols-1 gap-5 mb-5">
       <div className="card">
         <div className="card-header">
@@ -184,6 +184,7 @@ const EmpLeave = () => {
           </div>
         </div>
       </div>
-    </div>;
+    </div>
+  );
 };
 export default EmpLeave;

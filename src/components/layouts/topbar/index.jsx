@@ -61,7 +61,7 @@ const Topbar = () => {
 
   const fetchNotifications = async () => {
     try {
-      const data = await apiGet('/api/v1/notifications');
+      const data = await apiGet('/v1/notifications');
       setNotificationsList(data);
     } catch (err) {
       console.error('Failed to fetch notifications:', err);
@@ -78,7 +78,7 @@ const Topbar = () => {
 
   const handleMarkRead = async (id) => {
     try {
-      await apiPut(`/api/v1/notifications/${id}/read`);
+      await apiPut(`/v1/notifications/${id}/read`);
       setNotificationsList(prev => prev.map(n => n.id === id ? { ...n, isRead: true } : n));
     } catch (err) {
       console.error('Failed to mark notification as read:', err);
@@ -87,7 +87,7 @@ const Topbar = () => {
 
   const handleMarkAllRead = async () => {
     try {
-      await apiPut('/api/v1/notifications/read-all');
+      await apiPut('/v1/notifications/read-all');
       setNotificationsList(prev => prev.map(n => ({ ...n, isRead: true })));
     } catch (err) {
       console.error('Failed to mark all notifications as read:', err);
