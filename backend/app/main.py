@@ -441,7 +441,10 @@ async def auth_middleware(request: Request, call_next):
         return await call_next(request)
 
     path = request.url.path
-    if not path.startswith("/api/v1") or path in AUTH_EXEMPT_PATHS:
+    normalized_path = path.lower().rstrip("/").replace("//", "/")
+    exempt_paths = {p.lower().rstrip("/").replace("//", "/") for p in AUTH_EXEMPT_PATHS}
+
+    if not normalized_path.startswith("/api/v1") or normalized_path in exempt_paths:
         return await call_next(request)
 
     auth_header = request.headers.get("Authorization", "")
