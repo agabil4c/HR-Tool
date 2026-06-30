@@ -183,6 +183,9 @@ export const saveAuthSession = (session) => {
     return;
   }
 
+  // Save the token first, so loadRoles can see it if it needs to fetch
+  localStorage.setItem(AUTH_STORAGE_KEYS.token, session.token || '');
+
   loadRoles().catch(err => console.error('Failed to load roles during saveAuthSession', err));
 
   const resolvedAccessLevel = resolveSessionAccessLevel(session.accessLevel, session.role);
@@ -196,7 +199,6 @@ export const saveAuthSession = (session) => {
     permissions: session.permissions
   });
 
-  localStorage.setItem(AUTH_STORAGE_KEYS.token, session.token || '');
   localStorage.setItem(AUTH_STORAGE_KEYS.role, normalizeAccessLevel(session.role || resolvedAccessLevel));
   localStorage.setItem(AUTH_STORAGE_KEYS.fullName, session.fullName || '');
   localStorage.setItem(AUTH_STORAGE_KEYS.department, session.department || 'General');

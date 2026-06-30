@@ -53,6 +53,12 @@ export const loadRoles = async (forceRefresh = false) => {
     return [];
   }
 
+  // Prevent calling backend if user is not authenticated (requires auth token)
+  const token = localStorage.getItem('auth_token');
+  if (!token) {
+    return [];
+  }
+
   if (forceRefresh !== true && rolesLoadPromise) {
     return rolesLoadPromise;
   }
