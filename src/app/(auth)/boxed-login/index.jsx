@@ -25,6 +25,7 @@ const Index = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const session = getAuthSession();
@@ -35,7 +36,9 @@ const Index = () => {
 
   const handleLogin = async e => {
     e.preventDefault();
+    setError(null);
     if (!email || !password) {
+      setError('Username/Email and Password are required.');
       return;
     }
 
@@ -45,8 +48,9 @@ const Index = () => {
       saveAuthSession(response);
       const session = getAuthSession();
       navigate(session.dashboardRoute || '/dashboard', { replace: true });
-    } catch (error) {
-      console.error('Login failed', error);
+    } catch (err) {
+      console.error('Login failed', err);
+      setError(err.detail || err.message || 'Login failed. Please check your credentials and try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -72,6 +76,12 @@ const Index = () => {
                   <p className="text-base text-default-500">Sign in to continue to HR Portal.</p>
 
                   <form onSubmit={handleLogin} className="text-left w-full mt-10">
+                    {error && (
+                      <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-red-950/30 dark:text-red-400 border border-red-200 dark:border-red-900 flex items-start gap-2" role="alert">
+                        <IconifyIcon icon="solar:info-circle-bold-duotone" className="size-5 shrink-0 mt-0.5 animate-bounce" />
+                        <div className="flex-1 font-medium">{error}</div>
+                      </div>
+                    )}
                     <div className="mb-4">
                       <label htmlFor="Username" className="block font-medium text-default-900 text-sm mb-2">
                         Username/ Email ID

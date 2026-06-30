@@ -237,11 +237,7 @@ const Index = () => {
       await reloadCalendar();
     } catch (error) {
       const msg = error?.response?.data?.detail || error?.message || 'Failed to save draft';
-      if (error?.response?.status === 409) {
-        setDraftError(msg);
-      } else {
-        console.error('Failed to save draft', error);
-      }
+      setDraftError(msg);
     }
   };
 
@@ -295,7 +291,7 @@ const Index = () => {
   };
 
   const openEditLeave = leave => {
-    setEditLeave({ id: leave.id, leaveType: leave.leaveType, reason: leave.reason, standIn: leave.standIn || '' });
+    setEditLeave({ id: leave.id, leaveType: leave.leaveType, reason: leave.reason, standIn: leave.standIn || '', error: null });
   };
 
   const handleEditSave = async () => {
@@ -313,6 +309,8 @@ const Index = () => {
       void reloadBalance();
     } catch (error) {
       console.error('Failed to update leave application', error);
+      const msg = error?.response?.data?.detail || error?.message || 'Failed to update leave application';
+      setEditLeave(prev => ({ ...prev, error: msg }));
     } finally {
       setEditSubmitting(false);
     }
@@ -945,6 +943,9 @@ const Index = () => {
                 </div>
               )}
             </div>
+            {editLeave.error && (
+              <p className="mt-4 text-xs text-danger bg-danger/10 rounded-lg px-3 py-2">{editLeave.error}</p>
+            )}
             <div className="mt-6 flex gap-3">
               <button
                 type="button"

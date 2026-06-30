@@ -109,3 +109,18 @@ html[data-theme='dark'][data-sidenav-color='light'] {
   --sidenav-item-hover-color: var(--color-zinc-300);
   --sidenav-item-hover-bg: var(--color-zinc-800);
 }
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(1rem);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in-up {
+  animation: slideInUp 0.2s ease-out forwards;
+}

@@ -91,6 +91,12 @@ const CreateDepartment = () => {
 
           {/* Form Container */}
           <form className="space-y-8">
+            {errorMessage && (
+              <div className="p-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-red-950/30 dark:text-red-400 border border-red-200 dark:border-red-900 flex items-start gap-2" role="alert">
+                <IconifyIcon icon="solar:info-circle-bold-duotone" className="size-5 shrink-0 mt-0.5 animate-bounce" />
+                <div className="flex-1 font-medium">{errorMessage}</div>
+              </div>
+            )}
             {/* General Information */}
             <section className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
               <div className="p-6 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/50">
@@ -304,7 +310,6 @@ const CreateDepartment = () => {
               {isSubmitting ? 'Creating...' : 'Create Department'}
             </PermissionButton>
           </div>
-          {errorMessage && <p className="text-sm font-medium text-danger">{errorMessage}</p>}
           </form>
         </div>
       </main>

@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import LayoutProvider from '@/context/useLayoutContext';
 import UserRoleProvider from '@/context/useUserRoleContext';
 import { useLocation } from 'react-router';
+import { Toaster } from '@/components/Toast';
+
 const ProvidersWrapper = ({
   children
 }) => {
@@ -34,6 +36,7 @@ const ProvidersWrapper = ({
       <LayoutProvider>
         <UserRoleProvider>{children}</UserRoleProvider>
       </LayoutProvider>
+      <Toaster />
     </>;
 };
 export default ProvidersWrapper;
