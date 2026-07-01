@@ -45,6 +45,7 @@ const ACCESS_LEVEL_ALIASES = {
   staff: 'employee',
   'self-service': 'employee',
   'self service': 'employee',
+  'full-access': 'super-admin',
   'super admin': 'super-admin',
   'hr manager': 'hr-manager',
   'hr officer': 'hr-officer',
