@@ -114,14 +114,30 @@ const MyProfile = () => {
   const latestScore = performanceSummary.latestScore;
 
   const profileFieldOptions = [
-    'Phone Number',
-    'Personal Email',
-    'Emergency Contact',
-    'Address Details',
-    'Marital Status',
+    'First Name',
+    'Last Name',
+    'Gender',
+    'Date of Birth',
     'Nationality',
+    'Marital Status',
     'National ID',
+    'Profile Photo',
+    'Personal Email',
+    'Phone Number',
+    'Emergency Contact Name',
+    'Emergency Contact Phone',
+    'Emergency Contact Relationship',
+    'Address Line 1',
+    'Address City',
+    'Address District',
+    'Address Country',
     'Work Location',
+    'Bank Account',
+    'Account Names',
+    'Bank Name',
+    'Bank Details',
+    'Tax ID',
+    'NSSF Number',
     'Other'
   ];
 
@@ -538,7 +554,7 @@ const MyProfile = () => {
       </div>
     </main>
     {isRequestModalOpen && <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-4">
-      <div className="w-full max-w-2xl rounded-xl border border-slate-200 bg-white p-6 shadow-xl dark:border-slate-700 dark:bg-slate-900">
+      <div className="w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-xl border border-slate-200 bg-white p-6 shadow-xl dark:border-slate-700 dark:bg-slate-900">
         <div className="mb-4 flex items-start justify-between">
           <div>
             <h3 className="text-lg font-bold text-slate-900 dark:text-white">Request Profile Update</h3>
@@ -551,11 +567,13 @@ const MyProfile = () => {
 
         <div>
           <p className="mb-2 text-sm font-semibold text-slate-700 dark:text-slate-300">Fields to update</p>
-          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-            {profileFieldOptions.map(fieldLabel => <label key={fieldLabel} className="flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2 text-sm dark:border-slate-700">
-              <input type="checkbox" checked={requestFields.includes(fieldLabel)} onChange={() => toggleRequestField(fieldLabel)} className="rounded border-slate-300 text-primary focus:ring-primary" />
-              <span className="text-slate-700 dark:text-slate-300">{fieldLabel}</span>
-            </label>)}
+          <div className="max-h-60 overflow-y-auto pr-1 rounded-lg border border-slate-100 p-2 dark:border-slate-800">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+              {profileFieldOptions.map(fieldLabel => <label key={fieldLabel} className="flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2 text-sm dark:border-slate-700">
+                <input type="checkbox" checked={requestFields.includes(fieldLabel)} onChange={() => toggleRequestField(fieldLabel)} className="rounded border-slate-300 text-primary focus:ring-primary" />
+                <span className="text-slate-700 dark:text-slate-300">{fieldLabel}</span>
+              </label>)}
+            </div>
           </div>
         </div>
 

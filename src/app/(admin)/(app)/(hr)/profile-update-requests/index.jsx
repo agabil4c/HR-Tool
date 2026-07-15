@@ -12,8 +12,32 @@ const statusOptions = [
 ];
 
 const fieldBinding = {
-  'Phone Number': { key: 'phone', label: 'Phone Number', type: 'text' },
+  'First Name': { key: 'firstName', label: 'First Name', type: 'text' },
+  'Last Name': { key: 'lastName', label: 'Last Name', type: 'text' },
+  Gender: { key: 'gender', label: 'Gender', type: 'text' },
+  'Date of Birth': { key: 'dateOfBirth', label: 'Date of Birth', type: 'date' },
+  Nationality: { key: 'nationality', label: 'Nationality', type: 'text' },
+  'Marital Status': { key: 'maritalStatus', label: 'Marital Status', type: 'text' },
+  'National ID': { key: 'nationalId', label: 'National ID', type: 'text' },
+  'Profile Photo': { key: 'profilePhoto', label: 'Profile Photo', type: 'text' },
   'Personal Email': { key: 'personalEmail', label: 'Personal Email', type: 'email' },
+  'Phone Number': { key: 'phone', label: 'Phone Number', type: 'text' },
+  'Emergency Contact Name': { key: 'emergencyContactName', label: 'Emergency Contact Name', type: 'text' },
+  'Emergency Contact Phone': { key: 'emergencyContactPhone', label: 'Emergency Contact Phone', type: 'text' },
+  'Emergency Contact Relationship': { key: 'emergencyContactRelationship', label: 'Emergency Contact Relationship', type: 'text' },
+  'Address Line 1': { key: 'addressLine1', label: 'Address Line 1', type: 'text' },
+  'Address City': { key: 'addressCity', label: 'Address City', type: 'text' },
+  'Address District': { key: 'addressDistrict', label: 'Address District', type: 'text' },
+  'Address Country': { key: 'addressCountry', label: 'Address Country', type: 'text' },
+  'Work Location': { key: 'workLocation', label: 'Work Location', type: 'text' },
+  'Bank Account': { key: 'bankAccount', label: 'Bank Account', type: 'text' },
+  'Account Names': { key: 'accountNames', label: 'Account Names', type: 'text' },
+  'Bank Name': { key: 'bankName', label: 'Bank Name', type: 'text' },
+  'Bank Details': { key: 'bankDetails', label: 'Bank Details', type: 'text' },
+  'Tax ID': { key: 'taxId', label: 'Tax ID', type: 'text' },
+  'NSSF Number': { key: 'nssfNumber', label: 'NSSF Number', type: 'text' },
+
+  // Backward compatibility
   'Emergency Contact': [
     { key: 'emergencyContactName', label: 'Emergency Contact Name', type: 'text' },
     { key: 'emergencyContactPhone', label: 'Emergency Contact Phone', type: 'text' },
@@ -25,10 +49,6 @@ const fieldBinding = {
     { key: 'addressCountry', label: 'Address Country', type: 'text' },
     { key: 'addressLine1', label: 'Address Line', type: 'text' },
   ],
-  'Marital Status': { key: 'maritalStatus', label: 'Marital Status', type: 'text' },
-  Nationality: { key: 'nationality', label: 'Nationality', type: 'text' },
-  'National ID': { key: 'nationalId', label: 'National ID', type: 'text' },
-  'Work Location': { key: 'workLocation', label: 'Work Location', type: 'text' },
 };
 
 const flattenRequestedFields = (requestedFields) => {

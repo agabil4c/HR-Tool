@@ -37,48 +37,48 @@ export const menuItemsData = [{
   permissionKey: 'departments',
   accessLevels: HR_ONLY_ACCESS_LEVELS
 }, {
-    key: 'Leave Requests',
-    label: 'Leave Requests',
-    icon: LuCalendarClock,
-    href: '/leave',
-    permissionKey: 'leave',
-    accessLevels: MANAGERIAL_ACCESS_LEVELS
-  }, {
-    key: 'Attendance Records',
-    label: 'Attendance Records',
-    icon: LuClock,
-    href: '/attendance',
-    permissionKey: 'attendance',
-    accessLevels: MANAGERIAL_ACCESS_LEVELS
-  }, {
-    key: 'Holidays',
-    label: 'Public Holidays',
-    icon: LuCalendarDays,
-    href: '/holidays',
-    permissionKey: 'leave',
-    accessLevels: HR_ONLY_ACCESS_LEVELS
-  }, {
-    key: 'Profile Update Requests',
-    label: 'Profile Update Requests',
-    icon: LuUserCog,
-    href: '/profile-update-requests',
-    permissionKey: 'staff',
-    accessLevels: HR_ONLY_ACCESS_LEVELS
-  }, {
-    key: 'Performance Overview',
-    label: 'My Review Forms',
-    icon: LuClipboardList,
-    href: '/performance-reviews',
-    permissionKey: 'reports',
-    accessLevels: EMPLOYEE_AND_MANAGER_ACCESS_LEVELS
-  }, {
-    key: 'Review Management',
-    label: 'Department Review Queue',
-    icon: LuListChecks,
-    href: '/performance-review-management',
-    permissionKey: 'reports',
-    accessLevels: HR_AND_DEPARTMENT_ACCESS_LEVELS
-  }, {
+  key: 'Leave Requests',
+  label: 'Leave Requests',
+  icon: LuCalendarClock,
+  href: '/leave',
+  permissionKey: 'leave',
+  accessLevels: MANAGERIAL_ACCESS_LEVELS
+}, {
+  key: 'Attendance Records',
+  label: 'Attendance Records',
+  icon: LuClock,
+  href: '/attendance',
+  permissionKey: 'attendance',
+  accessLevels: MANAGERIAL_ACCESS_LEVELS
+}, {
+  key: 'Holidays',
+  label: 'Public Holidays',
+  icon: LuCalendarDays,
+  href: '/holidays',
+  permissionKey: 'leave',
+  accessLevels: HR_ONLY_ACCESS_LEVELS
+}, {
+  key: 'Profile Update Requests',
+  label: 'Profile Update Requests',
+  icon: LuUserCog,
+  href: '/profile-update-requests',
+  permissionKey: 'staff',
+  accessLevels: HR_ONLY_ACCESS_LEVELS
+}, {
+  key: 'Performance Overview',
+  label: 'My Review Forms',
+  icon: LuClipboardList,
+  href: '/performance-reviews',
+  permissionKey: 'reports',
+  accessLevels: EMPLOYEE_AND_MANAGER_ACCESS_LEVELS
+}, {
+  key: 'Review Management',
+  label: 'Department Review Queue',
+  icon: LuListChecks,
+  href: '/performance-review-management',
+  permissionKey: 'reports',
+  accessLevels: HR_AND_DEPARTMENT_ACCESS_LEVELS
+}, {
   key: 'Self Service',
   label: 'Self Service',
   isTitle: true
@@ -95,13 +95,6 @@ export const menuItemsData = [{
   icon: LuCalendar1,
   href: '/leave-planner',
   permissionKey: 'leave',
-  accessLevels: ALL_ACCESS_LEVELS
-}, {
-  key: 'My Attendance',
-  label: 'My Clock-In',
-  icon: LuMonitorDot,
-  href: '/attendance-main',
-  permissionKey: 'attendance',
   accessLevels: ALL_ACCESS_LEVELS
 }, {
   key: 'Admin Settings',
