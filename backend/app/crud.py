@@ -40,6 +40,12 @@ MANAGER_DASHBOARD_ROUTE = "/dashboard/managers/index"
 
 
 def ensure_employee_extended_fields(db: Session) -> None:
+    table_check = db.execute(
+        text("SELECT name FROM sqlite_master WHERE type='table' AND name='employees'")
+    ).fetchone()
+    if not table_check:
+        return
+
     existing_columns = {
         row[1]
         for row in db.execute(text("PRAGMA table_info(employees)")).fetchall()
@@ -65,6 +71,12 @@ def ensure_employee_extended_fields(db: Session) -> None:
 
 
 def ensure_attendance_extended_fields(db: Session) -> None:
+    table_check = db.execute(
+        text("SELECT name FROM sqlite_master WHERE type='table' AND name='attendance_records'")
+    ).fetchone()
+    if not table_check:
+        return
+
     existing_columns = {
         row[1]
         for row in db.execute(text("PRAGMA table_info(attendance_records)")).fetchall()
@@ -87,6 +99,12 @@ def ensure_attendance_extended_fields(db: Session) -> None:
 
 
 def ensure_leave_handover_fields(db: Session) -> None:
+    table_check = db.execute(
+        text("SELECT name FROM sqlite_master WHERE type='table' AND name='leave_applications'")
+    ).fetchone()
+    if not table_check:
+        return
+
     existing_columns = {
         row[1]
         for row in db.execute(text("PRAGMA table_info(leave_applications)")).fetchall()

@@ -25,7 +25,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import func
 
 from . import crud, models
-from .database import SessionLocal, get_db
+from .database import engine, SessionLocal, get_db
 from .seed import seed_if_empty
 
 app = FastAPI(title="HR Tool API", version="1.0.0")
@@ -393,9 +393,11 @@ STAFF_ROLE_ALIASES = {"staff", "employee"}
 
 @app.on_event("startup")
 def initialize_bootstrap_data() -> None:
+    models.Base.metadata.create_all(bind=engine)
     db = SessionLocal()
     try:
         crud.ensure_employee_extended_fields(db)
+        crud.ensure_attendance_extended_fields(db)
         crud.ensure_leave_handover_fields(db)
     finally:
         db.close()

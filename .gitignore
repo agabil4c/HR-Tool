@@ -32,7 +32,10 @@ venv/
 
 # Databases
 *.db
+*.sqlite
 *.sqlite3
+backend/*.db
+backend/hr_tool.db
 
 # Env / secrets
 .env
