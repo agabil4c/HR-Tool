@@ -68,6 +68,8 @@ const buildEmptyForm = (departments = [], roleProfileOptions = []) => ({
   personalEmail: '',
   workEmail: '',
   phone: '',
+  workPhone: '',
+  personalPhone: '',
   emergencyContactName: '',
   emergencyContactPhone: '',
   emergencyContactRelationship: '',
@@ -200,8 +202,15 @@ const Index = () => {
   const fieldInputClass = (key, extra = '') =>
     `h-11 w-full rounded-lg ${formErrors[key] ? 'border-red-400 bg-red-50 dark:border-red-500 dark:bg-red-900/10' : 'border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-800/50'} focus:border-primary focus:ring-primary ${extra}`.trim();
 
+  const getCleanPhone = (val) => {
+    if (!val || typeof val !== 'string' || val.includes('@')) return '';
+    return val.trim();
+  };
+
   const openEditEmployee = (person) => {
     const bankParts = splitBankDetails(person.bankDetails || '');
+    const cleanWp = getCleanPhone(person.workPhone) || getCleanPhone(person.phone) || getCleanPhone(person.contact);
+    const cleanPp = getCleanPhone(person.personalPhone);
     setEditEmployee(person);
     setEditForm({
       firstName: person.firstName || '',
@@ -210,10 +219,14 @@ const Index = () => {
       dateOfBirth: person.dateOfBirth || '',
       nationality: person.nationality || '',
       maritalStatus: person.maritalStatus || '',
+      profilePhoto: person.profilePhoto || '',
       nationalId: person.nationalId || '',
       personalEmail: person.personalEmail || '',
       workEmail: person.workEmail || '',
-      phone: person.phone || '',
+      phone: cleanWp,
+      workPhone: cleanWp,
+      personalPhone: cleanPp,
+      department: person.dept || person.department || '',
       emergencyContactName: person.emergencyContact?.name || '',
       emergencyContactPhone: person.emergencyContact?.phone || '',
       emergencyContactRelationship: person.emergencyContact?.relationship || '',
@@ -244,7 +257,11 @@ const Index = () => {
   };
 
   const handleEditSave = async () => {
-    if (!editEmployee) return;
+    const targetId = editEmployee?.dbId || editEmployee?.id;
+    if (!editEmployee || !targetId) {
+      setEditError('Employee ID not found. Cannot save changes.');
+      return;
+    }
     setEditSubmitting(true);
     setEditError('');
     setEditSuccess('');
@@ -253,12 +270,23 @@ const Index = () => {
         ...editForm,
         bankDetails: composeBankDetails(editForm),
       };
-      await hrApi.updateEmployeeByHR(editEmployee.dbId, payload);
+      await hrApi.updateEmployeeByHR(targetId, payload);
       setEditSuccess('Profile updated successfully.');
       const data = await hrApi.getModuleData('staff-biodata');
       setStaffProfilesData(data.staffProfiles || []);
+      setTimeout(() => {
+        setEditEmployee(null);
+        setEditSuccess('');
+      }, 800);
     } catch (err) {
-      setEditError(err?.response?.data?.detail || err?.message || 'Failed to update employee.');
+      console.error('Failed to update employee:', err);
+      const detail = err?.response?.data?.detail;
+      const msg = typeof detail === 'string'
+        ? detail
+        : (Array.isArray(detail)
+            ? detail.map(d => `${d.loc?.[d.loc?.length - 1] || 'field'}: ${d.msg}`).join('; ')
+            : err?.message || 'Failed to update employee.');
+      setEditError(msg);
     } finally {
       setEditSubmitting(false);
     }
@@ -406,7 +434,9 @@ const Index = () => {
         nationalId: form.nationalId,
         personalEmail: form.personalEmail,
         workEmail: form.workEmail,
-        phone: form.phone,
+        phone: form.workPhone || form.phone || form.personalPhone,
+        workPhone: form.workPhone,
+        personalPhone: form.personalPhone,
         emergencyContactName: form.emergencyContactName,
         emergencyContactPhone: form.emergencyContactPhone,
         emergencyContactRelationship: form.emergencyContactRelationship,
@@ -633,8 +663,12 @@ const Index = () => {
                       {formErrors.personalEmail && <p className="text-xs text-red-500">Personal email is required</p>}
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Phone Number</label>
-                      <input type="tel" value={form.phone} onChange={e => updateForm('phone', e.target.value)} className="h-11 w-full rounded-lg border-slate-200 bg-slate-50 focus:border-primary focus:ring-primary dark:border-slate-800 dark:bg-slate-800/50" placeholder="+1 (555) 000-0000" />
+                      <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Work Line (Phone)</label>
+                      <input type="tel" value={form.workPhone} onChange={e => updateForm('workPhone', e.target.value)} className="h-11 w-full rounded-lg border-slate-200 bg-slate-50 focus:border-primary focus:ring-primary dark:border-slate-800 dark:bg-slate-800/50" placeholder="e.g. +256 700 000 000" />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Personal Line (Phone)</label>
+                      <input type="tel" value={form.personalPhone} onChange={e => updateForm('personalPhone', e.target.value)} className="h-11 w-full rounded-lg border-slate-200 bg-slate-50 focus:border-primary focus:ring-primary dark:border-slate-800 dark:bg-slate-800/50" placeholder="e.g. +256 770 000 000" />
                     </div>
                     <div className="space-y-1.5">
                       <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Next of Kin</label>
@@ -1057,7 +1091,11 @@ const Index = () => {
                     {filteredStaffProfiles.map(person => <tr key={person.name} className="cursor-pointer transition-colors hover:bg-slate-50 dark:hover:bg-slate-800/30">
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-3">
-                            <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">{person.initials}</span>
+                            {person.profilePhoto ? (
+                              <img src={person.profilePhoto} alt={person.name} className="h-10 w-10 rounded-full object-cover border border-slate-200 dark:border-slate-700" />
+                            ) : (
+                              <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">{person.initials}</span>
+                            )}
                             <div>
                               <p className="text-sm font-bold text-slate-900 dark:text-slate-100">{person.name}</p>
                               <p className="text-xs text-slate-500">{person.startedAt}</p>
@@ -1079,7 +1117,21 @@ const Index = () => {
                           </div>
                         </td>
                         <td className="hidden px-6 py-4 lg:table-cell">
-                          <p className="text-sm text-slate-600 dark:text-slate-400">{person.contact}</p>
+                          <div className="flex flex-col text-xs space-y-0.5">
+                            {(person.workPhone || person.phone || person.contact) && (
+                              <p className="text-slate-700 dark:text-slate-300 font-medium">
+                                <span className="text-slate-400 text-[10px] uppercase font-bold mr-1">Work:</span>{person.workPhone || person.phone || person.contact}
+                              </p>
+                            )}
+                            {person.personalPhone && (
+                              <p className="text-slate-500 dark:text-slate-400">
+                                <span className="text-slate-400 text-[10px] uppercase font-bold mr-1">Personal:</span>{person.personalPhone}
+                              </p>
+                            )}
+                            {!person.workPhone && !person.phone && !person.contact && !person.personalPhone && (
+                              <p className="text-slate-400 italic">—</p>
+                            )}
+                          </div>
                         </td>
                         <td className="px-6 py-4">
                           <div className="flex flex-col gap-1">
@@ -1281,8 +1333,38 @@ const Index = () => {
               {/* Personal */}
               <fieldset>
                 <legend className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Personal Details</legend>
+
+                {/* Profile Pic Upload */}
+                <div className="flex items-center gap-4 mb-4 pb-4 border-b border-slate-100 dark:border-slate-800">
+                  <div className="relative size-16 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center overflow-hidden border border-slate-300 dark:border-slate-600 shrink-0">
+                    {editForm.profilePhoto ? (
+                      <img src={editForm.profilePhoto} alt="Profile" className="w-full h-full object-cover" />
+                    ) : (
+                      <span className="text-xl font-bold text-slate-500">{((editForm.firstName?.[0] || '') + (editForm.lastName?.[0] || '')).toUpperCase() || 'U'}</span>
+                    )}
+                  </div>
+                  <div className="flex-1">
+                    <label className="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Profile Photo Upload</label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={e => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          const reader = new FileReader();
+                          reader.onloadend = () => {
+                            setEditForm(p => ({ ...p, profilePhoto: reader.result }));
+                          };
+                          reader.readAsDataURL(file);
+                        }
+                      }}
+                      className="h-10 w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 px-3 text-xs focus:border-primary focus:ring-primary flex items-center file:mr-3 file:py-1 file:px-2.5 file:rounded-md file:border-0 file:text-xs file:font-bold file:bg-primary/10 file:text-primary hover:file:bg-primary/20"
+                    />
+                  </div>
+                </div>
+
                 <div className="grid grid-cols-2 gap-4">
-                  {[['First Name','firstName','text'],['Last Name','lastName','text'],['Personal Email','personalEmail','email'],['Work Email','workEmail','email'],['Phone','phone','tel'],['National ID','nationalId','text'],['Date of Birth','dateOfBirth','date'],['Nationality','nationality','text']].map(([label, key, type]) => (
+                  {[['First Name','firstName','text'],['Last Name','lastName','text'],['Personal Email','personalEmail','email'],['Work Email','workEmail','email'],['Work Line (Phone)','workPhone','tel'],['Personal Line (Phone)','personalPhone','tel'],['National ID','nationalId','text'],['Date of Birth','dateOfBirth','date'],['Nationality','nationality','text']].map(([label, key, type]) => (
                     <div key={key}>
                       <label className="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">{label}</label>
                       <input type={type} value={editForm[key] || ''} onChange={e => setEditForm(p => ({...p, [key]: e.target.value}))} className="h-10 w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 px-3 text-sm focus:border-primary focus:ring-primary" />
@@ -1320,6 +1402,15 @@ const Index = () => {
               <fieldset>
                 <legend className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Employment</legend>
                 <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Department</label>
+                    <select value={editForm.department || ''} onChange={e => setEditForm(p => ({...p, department: e.target.value}))} className="h-10 w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 px-3 text-sm focus:border-primary focus:ring-primary">
+                      <option value="">Select Department</option>
+                      {departments.map(d => (
+                        <option key={d.id || d.name} value={d.name}>{d.name}</option>
+                      ))}
+                    </select>
+                  </div>
                   {[['Employee ID','employeeId','text'],['Job Title','jobTitle','text'],['Work Location','workLocation','text'],['Date of Joining','dateOfJoining','date'],['Salary','salary','text'],['Pay Grade','payGrade','text'],['Salary Benefits','salaryBenefits','text'],['Bank Account','bankAccount','text'],['Account Names','accountNames','text'],['Bank Name','bankName','text'],['Tax ID','taxId','text'],['NSSF Number','nssfNumber','text']].map(([label, key, type]) => (
                     <div key={key}>
                       <label className="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">{label}</label>

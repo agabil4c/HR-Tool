@@ -190,9 +190,10 @@ const MyProfile = () => {
             {/* Contact Information — read-only */}
             <div id="contact-info" className="rounded-xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
               <h2 className="mb-6 text-xl font-bold text-slate-900 dark:text-white">Contact Information</h2>
-              <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+              <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
                 <ReadField label="Personal Email" value={form.personalEmail} />
-                <ReadField label="Phone" value={form.phone} />
+                <ReadField label="Work Line (Phone)" value={form.workPhone || form.phone} />
+                <ReadField label="Personal Line (Phone)" value={form.personalPhone} />
               </div>
               <h3 className="mt-6 mb-4 text-base font-semibold text-slate-800 dark:text-slate-200">Emergency Contact</h3>
               <div className="grid grid-cols-1 gap-5 md:grid-cols-3">

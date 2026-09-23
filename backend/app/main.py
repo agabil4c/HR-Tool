@@ -225,10 +225,13 @@ class HrEmployeeUpdateRequest(BaseModel):
     dateOfBirth: str = ""
     nationality: str = ""
     maritalStatus: str = ""
+    profilePhoto: str = ""
     nationalId: str = ""
     personalEmail: str = ""
     workEmail: str = ""
     phone: str = ""
+    workPhone: str = ""
+    personalPhone: str = ""
     emergencyContactName: str = ""
     emergencyContactPhone: str = ""
     emergencyContactRelationship: str = ""
@@ -237,6 +240,7 @@ class HrEmployeeUpdateRequest(BaseModel):
     addressCountry: str = ""
     addressLine1: str = ""
     employeeId: str = ""
+    department: str = ""
     jobTitle: str = ""
     employmentType: str = ""
     dateOfJoining: str = ""
@@ -269,6 +273,8 @@ class EmployeeOnboardingCreateRequest(BaseModel):
     personalEmail: str = Field(min_length=5)
     workEmail: str = ""
     phone: str = ""
+    workPhone: str = ""
+    personalPhone: str = ""
     emergencyContactName: str = ""
     emergencyContactPhone: str = ""
     emergencyContactRelationship: str = ""
@@ -1400,6 +1406,10 @@ def update_employee_by_hr(
         "dateOfBirth": "date_of_birth",
         "personalEmail": "personal_email",
         "workEmail": "work_email",
+        "phone": "contact",
+        "workPhone": "work_phone",
+        "personalPhone": "personal_phone",
+        "profilePhoto": "profile_photo",
         "emergencyContactName": "emergency_contact_name",
         "emergencyContactPhone": "emergency_contact_phone",
         "emergencyContactRelationship": "emergency_contact_relationship",
@@ -1424,13 +1434,31 @@ def update_employee_by_hr(
     }
     protected = {'id', 'user_id', 'department_id', 'created_at', 'updated_at'}
     for camel, value in payload.model_dump(exclude_none=True).items():
-        if camel in ('lineManager', 'departmentHead'):
+        if camel in ('lineManager', 'departmentHead', 'department'):
             continue  # handled separately below
         if not value and value != False:  # skip empty strings
             continue
         db_field = field_mapping.get(camel, camel)
         if hasattr(employee, db_field) and db_field not in protected:
             setattr(employee, db_field, value)
+    if payload.profilePhoto:
+        employee.profile_photo = payload.profilePhoto
+        employee.avatar = payload.profilePhoto
+    if payload.workPhone:
+        employee.work_phone = payload.workPhone
+        if not employee.contact:
+            employee.contact = payload.workPhone
+    if payload.personalPhone:
+        employee.personal_phone = payload.personalPhone
+    if payload.department is not None and payload.department != "":
+        dept_name = payload.department.strip()
+        dept = db.query(models.Department).filter(func.lower(models.Department.name) == dept_name.lower()).first()
+        if dept:
+            employee.department_id = dept.id
+            if employee.user_id:
+                linked_user = db.query(models.User).filter(models.User.id == employee.user_id).first()
+                if linked_user:
+                    linked_user.department = dept.name
     if payload.firstName or payload.lastName:
         first = payload.firstName or employee.first_name or ""
         last = payload.lastName or employee.last_name or ""
@@ -1661,7 +1689,9 @@ def create_employee_with_user(
             "personalEmail": payload.personalEmail,
             "workEmail": payload.workEmail,
             "email": payload.personalEmail,
-            "phone": payload.phone,
+            "phone": payload.phone or payload.workPhone or payload.personalPhone,
+            "workPhone": payload.workPhone,
+            "personalPhone": payload.personalPhone,
             "emergencyContactName": payload.emergencyContactName,
             "emergencyContactPhone": payload.emergencyContactPhone,
             "emergencyContactRelationship": payload.emergencyContactRelationship,

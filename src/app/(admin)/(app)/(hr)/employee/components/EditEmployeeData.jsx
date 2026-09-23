@@ -52,10 +52,31 @@ const EditEmployeeData = () => {
               </div>
 
               <div className="lg:col-span-6">
-                <label htmlFor="phoneNumberInput" className="block mb-2 text-sm font-medium text-default-700">
-                  Phone Number
+                <label htmlFor="workPhoneInput" className="block mb-2 text-sm font-medium text-default-700">
+                  Work Line (Phone)
                 </label>
-                <input type="text" id="phoneNumberInput" placeholder="Enter phone number" defaultValue="070 3715 3689" className="form-input" />
+                <input type="text" id="workPhoneInput" placeholder="Enter work line" defaultValue="070 3715 3689" className="form-input" />
+              </div>
+
+              <div className="lg:col-span-6">
+                <label htmlFor="personalPhoneInput" className="block mb-2 text-sm font-medium text-default-700">
+                  Personal Line (Phone)
+                </label>
+                <input type="text" id="personalPhoneInput" placeholder="Enter personal line" defaultValue="077 1234 5678" className="form-input" />
+              </div>
+
+              <div className="lg:col-span-6">
+                <label htmlFor="departmentSelect" className="block mb-2 text-sm font-medium text-default-700">
+                  Department
+                </label>
+                <select id="departmentSelect" className="form-input">
+                  <option defaultValue="">General</option>
+                  <option>Human Resources</option>
+                  <option>Engineering</option>
+                  <option>Sales & Marketing</option>
+                  <option>Finance</option>
+                  <option>Operations</option>
+                </select>
               </div>
 
               <div className="lg:col-span-6">

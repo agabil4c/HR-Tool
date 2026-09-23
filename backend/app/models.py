@@ -60,6 +60,8 @@ class Employee(Base):
     role = Column(String)
     department_id = Column(Integer, ForeignKey("departments.id"), nullable=True)
     contact = Column(String)
+    work_phone = Column(String)
+    personal_phone = Column(String)
     status = Column(String, default="Active")
     avatar = Column(String)
     reporting = Column(JSON)  # list of strings e.g. ["Sarah Smith (LM)", "Michael Chen (DH)"]

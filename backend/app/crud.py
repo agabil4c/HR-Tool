@@ -50,6 +50,8 @@ def ensure_employee_extended_fields(db: Session) -> None:
         "bank_account": "ALTER TABLE employees ADD COLUMN bank_account TEXT",
         "account_names": "ALTER TABLE employees ADD COLUMN account_names TEXT",
         "bank_name": "ALTER TABLE employees ADD COLUMN bank_name TEXT",
+        "work_phone": "ALTER TABLE employees ADD COLUMN work_phone TEXT",
+        "personal_phone": "ALTER TABLE employees ADD COLUMN personal_phone TEXT",
     }
 
     did_change = False
@@ -421,6 +423,12 @@ def _get_hr_dashboard(db: Session, user: models.User) -> dict[str, Any]:
     }
 
 
+def _clean_phone(value: str | None) -> str:
+    if not value or "@" in str(value):
+        return ""
+    return str(value).strip()
+
+
 def _get_staff_biodata(db: Session, user: models.User) -> dict[str, Any]:
     dept_map = _department_map(db)
     scoped_employees = _get_scoped_employee_query(db, user)
@@ -447,11 +455,15 @@ def _get_staff_biodata(db: Session, user: models.User) -> dict[str, Any]:
                 "remainingDays": default_initial,
             }
 
+        wp = _clean_phone(e.work_phone) or _clean_phone(e.contact)
+        pp = _clean_phone(e.personal_phone)
+
         staff_profiles.append(
             {
                 "initials": e.initials,
                 "name": e.name,
                 "dbId": e.id,
+                "id": e.id,
                 "firstName": e.first_name,
                 "lastName": e.last_name,
                 "gender": e.gender,
@@ -462,7 +474,11 @@ def _get_staff_biodata(db: Session, user: models.User) -> dict[str, Any]:
                 "nationalId": e.national_id,
                 "personalEmail": e.personal_email,
                 "workEmail": e.work_email,
-                "phone": e.contact,
+                "workPhone": wp,
+                "personalPhone": pp,
+                "phone": wp,
+                "contact": wp or pp,
+                "department": dept_map.get(e.department_id, ""),
                 "emergencyContact": {
                     "name": e.emergency_contact_name,
                     "phone": e.emergency_contact_phone,
@@ -1603,7 +1619,9 @@ def _get_my_bio_module(db: Session, user: models.User) -> dict[str, Any]:
         "nationalId": employee.national_id or '',
         "personalEmail": employee.personal_email or '',
         "workEmail": employee.work_email or '',
-        "phone": employee.contact or '',
+        "workPhone": employee.work_phone or employee.contact or '',
+        "personalPhone": employee.personal_phone or '',
+        "phone": employee.work_phone or employee.contact or '',
         "emergencyContactName": employee.emergency_contact_name or '',
         "emergencyContactPhone": employee.emergency_contact_phone or '',
         "emergencyContactRelationship": employee.emergency_contact_relationship or '',
@@ -4041,7 +4059,9 @@ def create_employee_with_user_account(db: Session, payload: dict[str, Any]) -> d
         national_id=payload.get("nationalId", "").strip(),
         personal_email=payload.get("personalEmail", "").strip(),
         work_email=payload.get("workEmail", "").strip(),
-        contact=payload.get("phone", "").strip() or normalized_email,
+        work_phone=payload.get("workPhone", "").strip() or payload.get("phone", "").strip(),
+        personal_phone=payload.get("personalPhone", "").strip(),
+        contact=payload.get("workPhone", "").strip() or payload.get("phone", "").strip() or payload.get("personalPhone", "").strip() or normalized_email,
         emergency_contact_name=payload.get("emergencyContactName", "").strip(),
         emergency_contact_phone=payload.get("emergencyContactPhone", "").strip(),
         emergency_contact_relationship=payload.get("emergencyContactRelationship", "").strip(),

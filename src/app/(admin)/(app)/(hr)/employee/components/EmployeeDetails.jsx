@@ -95,7 +95,8 @@ const EmployeeDetails = () => {
                     <th className="px-3.5 py-3 font-medium text-start">Name</th>
                     <th className="px-3.5 py-3 font-medium text-start">Designation</th>
                     <th className="px-3.5 py-3 font-medium text-start">Email Id</th>
-                    <th className="px-3.5 py-3 font-medium text-start">Phone Number</th>
+                    <th className="px-3.5 py-3 font-medium text-start">Work Line</th>
+                    <th className="px-3.5 py-3 font-medium text-start">Personal Line</th>
                     <th className="px-3.5 py-3 font-medium text-start">Location</th>
                     <th className="px-3.5 py-3 font-medium text-start">Experience</th>
                     <th className="px-3.5 py-3 font-medium text-start">Joining Date</th>
@@ -113,7 +114,8 @@ const EmployeeDetails = () => {
                       </td>
                       <td className="px-3.5 py-3 text-sm">{emp.designation}</td>
                       <td className="px-3.5 py-3 text-sm">{emp.email}</td>
-                      <td className="px-3.5 py-3 text-sm">{emp.phone}</td>
+                      <td className="px-3.5 py-3 text-sm">{emp.workPhone || emp.phone}</td>
+                      <td className="px-3.5 py-3 text-sm">{emp.personalPhone || '—'}</td>
                       <td className="px-3.5 py-3 text-sm">{emp.location}</td>
                       <td className="px-3.5 py-3 text-sm">{emp.experience}</td>
                       <td className="px-3.5 py-3 text-sm">{emp.joiningDate}</td>
