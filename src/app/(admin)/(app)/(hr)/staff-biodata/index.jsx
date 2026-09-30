@@ -645,9 +645,58 @@ const Index = () => {
                         <option value="Widowed">Widowed</option>
                       </select>
                     </div>
-                    <div className="space-y-1.5 md:col-span-3">
-                      <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Profile Photo</label>
-                      <input type="file" accept="image/*" onChange={e => updateForm('profilePhoto', e.target.files?.[0]?.name || '')} className="h-11 w-full rounded-lg border-slate-200 bg-slate-50 px-3 text-sm focus:border-primary focus:ring-primary dark:border-slate-800 dark:bg-slate-800/50" />
+                    <div className="space-y-2 md:col-span-3">
+                      <div className="flex items-center justify-between">
+                        <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+                          Passport Profile Photo <span className="text-xs font-normal text-slate-500">(Standard 35mm × 45mm / 2×2 inch portrait size)</span>
+                        </label>
+                        {form.profilePhoto && (
+                          <button
+                            type="button"
+                            onClick={() => updateForm('profilePhoto', '')}
+                            className="text-xs text-red-500 hover:text-red-700 font-semibold"
+                          >
+                            Remove Photo
+                          </button>
+                        )}
+                      </div>
+                      
+                      <div className="flex flex-col sm:flex-row items-start gap-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/20 p-4">
+                        {/* Passport Photo Frame Box */}
+                        <div className="relative w-32 h-40 rounded-lg border-2 border-dashed border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 flex flex-col items-center justify-center overflow-hidden shrink-0 shadow-xs">
+                          {form.profilePhoto ? (
+                            <img src={form.profilePhoto} alt="Passport Photo Preview" className="w-full h-full object-cover object-top" />
+                          ) : (
+                            <div className="flex flex-col items-center justify-center text-center p-3 text-slate-400">
+                              <UserCheck className="size-8 mb-1 text-slate-300 dark:text-slate-600" />
+                              <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400">Passport Photo</span>
+                              <span className="text-[9px] text-slate-400">35mm × 45mm</span>
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="flex-1 space-y-2">
+                          <p className="text-xs text-slate-600 dark:text-slate-400">
+                            Upload a standard headshot passport photo of the staff member. Ensure a clear face view on a plain background for official company HR &amp; ID records.
+                          </p>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={e => {
+                              const file = e.target.files?.[0];
+                              if (file) {
+                                const reader = new FileReader();
+                                reader.onloadend = () => {
+                                  updateForm('profilePhoto', reader.result);
+                                };
+                                reader.readAsDataURL(file);
+                              }
+                            }}
+                            className="h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-xs focus:border-primary focus:ring-primary dark:border-slate-800 dark:bg-slate-900 flex items-center file:mr-3 file:py-1 file:px-2.5 file:rounded-md file:border-0 file:text-xs file:font-bold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 cursor-pointer"
+                          />
+                          <p className="text-[10px] text-slate-400">Supported formats: JPG, PNG, WEBP. Standard passport portrait size (3.5cm × 4.5cm).</p>
+                        </div>
+                      </div>
                     </div>
                     <div className="space-y-1.5 md:col-span-2">
                       <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">National ID / Passport Number</label>
@@ -1092,9 +1141,9 @@ const Index = () => {
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-3">
                             {person.profilePhoto ? (
-                              <img src={person.profilePhoto} alt={person.name} className="h-10 w-10 rounded-full object-cover border border-slate-200 dark:border-slate-700" />
+                              <img src={person.profilePhoto} alt={person.name} className="h-12 w-9 rounded-md object-cover object-top border border-slate-200 shadow-xs dark:border-slate-700 shrink-0" />
                             ) : (
-                              <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">{person.initials}</span>
+                              <span className="inline-flex h-12 w-9 items-center justify-center rounded-md bg-primary/10 text-xs font-bold text-primary border border-primary/20 shrink-0">{person.initials}</span>
                             )}
                             <div>
                               <p className="text-sm font-bold text-slate-900 dark:text-slate-100">{person.name}</p>
@@ -1335,16 +1384,33 @@ const Index = () => {
                 <legend className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Personal Details</legend>
 
                 {/* Profile Pic Upload */}
-                <div className="flex items-center gap-4 mb-4 pb-4 border-b border-slate-100 dark:border-slate-800">
-                  <div className="relative size-16 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center overflow-hidden border border-slate-300 dark:border-slate-600 shrink-0">
+                <div className="flex flex-col sm:flex-row items-start gap-4 mb-4 pb-4 border-b border-slate-100 dark:border-slate-800">
+                  <div className="relative w-28 h-36 rounded-lg bg-slate-200 dark:bg-slate-800 flex flex-col items-center justify-center overflow-hidden border-2 border-slate-300 dark:border-slate-700 shrink-0 shadow-xs">
                     {editForm.profilePhoto ? (
-                      <img src={editForm.profilePhoto} alt="Profile" className="w-full h-full object-cover" />
+                      <img src={editForm.profilePhoto} alt="Profile Passport" className="w-full h-full object-cover object-top" />
                     ) : (
-                      <span className="text-xl font-bold text-slate-500">{((editForm.firstName?.[0] || '') + (editForm.lastName?.[0] || '')).toUpperCase() || 'U'}</span>
+                      <div className="flex flex-col items-center justify-center text-center p-2 text-slate-400">
+                        <UserCheck className="size-8 mb-1 text-slate-400" />
+                        <span className="text-[10px] font-bold text-slate-500">Passport Photo</span>
+                        <span className="text-[9px] text-slate-400">35mm × 45mm</span>
+                      </div>
                     )}
                   </div>
-                  <div className="flex-1">
-                    <label className="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Profile Photo Upload</label>
+                  <div className="flex-1 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+                        Passport Profile Photo <span className="text-[10px] font-normal text-slate-400">(35mm × 45mm / 2×2 inch)</span>
+                      </label>
+                      {editForm.profilePhoto && (
+                        <button
+                          type="button"
+                          onClick={() => setEditForm(p => ({ ...p, profilePhoto: '' }))}
+                          className="text-xs text-red-500 hover:text-red-700 font-semibold"
+                        >
+                          Remove Photo
+                        </button>
+                      )}
+                    </div>
                     <input
                       type="file"
                       accept="image/*"
@@ -1358,8 +1424,9 @@ const Index = () => {
                           reader.readAsDataURL(file);
                         }
                       }}
-                      className="h-10 w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 px-3 text-xs focus:border-primary focus:ring-primary flex items-center file:mr-3 file:py-1 file:px-2.5 file:rounded-md file:border-0 file:text-xs file:font-bold file:bg-primary/10 file:text-primary hover:file:bg-primary/20"
+                      className="h-10 w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 px-3 text-xs focus:border-primary focus:ring-primary flex items-center file:mr-3 file:py-1 file:px-2.5 file:rounded-md file:border-0 file:text-xs file:font-bold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 cursor-pointer"
                     />
+                    <p className="text-[10px] text-slate-400">Official passport photo for staff identity records.</p>
                   </div>
                 </div>
 

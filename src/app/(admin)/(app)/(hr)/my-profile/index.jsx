@@ -176,6 +176,31 @@ const MyProfile = () => {
             {/* Personal Details — read-only */}
             <div id="personal-details" className="rounded-xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
               <h2 className="mb-6 text-xl font-bold text-slate-900 dark:text-white">Personal Details</h2>
+              <div className="flex flex-col sm:flex-row gap-6 mb-6 pb-6 border-b border-slate-100 dark:border-slate-800 items-start">
+                <div className="relative w-32 h-40 rounded-xl bg-slate-100 dark:bg-slate-800 flex flex-col items-center justify-center overflow-hidden border-2 border-slate-200 dark:border-slate-700 shrink-0 shadow-xs">
+                  {form.profilePhoto ? (
+                    <img src={form.profilePhoto} alt={form.firstName} className="w-full h-full object-cover object-top" />
+                  ) : (
+                    <div className="flex flex-col items-center justify-center text-center p-3 text-slate-400">
+                      <span className="text-2xl font-bold text-primary">
+                        {((form.firstName?.[0] || '') + (form.lastName?.[0] || '')).toUpperCase() || 'U'}
+                      </span>
+                      <span className="mt-1 text-[10px] font-bold text-slate-400">Passport Photo</span>
+                    </div>
+                  )}
+                </div>
+                <div className="flex-1 space-y-1">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">{form.firstName} {form.lastName}</h3>
+                  <p className="text-sm text-primary font-semibold">{form.jobTitle || 'Employee'}</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">{form.department} &middot; {form.employeeId || 'ID Pending'}</p>
+                  <div className="pt-2">
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 dark:bg-emerald-900/30 px-2.5 py-1 text-xs font-bold text-emerald-700 dark:text-emerald-400">
+                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                      {form.status || 'Active'}
+                    </span>
+                  </div>
+                </div>
+              </div>
               <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
                 <ReadField label="First Name" value={form.firstName} />
                 <ReadField label="Last Name" value={form.lastName} />
