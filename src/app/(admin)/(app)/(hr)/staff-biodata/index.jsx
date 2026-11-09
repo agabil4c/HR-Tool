@@ -409,7 +409,7 @@ const Index = () => {
     const errors = {
       firstName: !form.firstName.trim(),
       lastName: !form.lastName.trim(),
-      personalEmail: !form.personalEmail.trim(),
+      //personalEmail: !form.personalEmail.trim(),
       jobTitle: !form.jobTitle.trim(),
       roleProfileName: !form.roleProfileName.trim(),
     };
