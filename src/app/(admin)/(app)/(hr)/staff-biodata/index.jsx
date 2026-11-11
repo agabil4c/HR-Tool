@@ -409,7 +409,6 @@ const Index = () => {
     const errors = {
       firstName: !form.firstName.trim(),
       lastName: !form.lastName.trim(),
-      //personalEmail: !form.personalEmail.trim(),
       jobTitle: !form.jobTitle.trim(),
       roleProfileName: !form.roleProfileName.trim(),
     };
@@ -708,8 +707,7 @@ const Index = () => {
                   </div>
                   <div className="space-y-1.5">
                     <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Personal Email</label>
-                    <input type="email" value={form.personalEmail} onChange={e => updateForm('personalEmail', e.target.value)} className="h-11 w-full rounded-lg border-slate-200 bg-slate-50 focus:border-primary focus:ring-primary dark:border-slate-800 dark:bg-slate-800/50" placeholder="Enter personal email" />
-                    {/* {formErrors.personalEmail && <p className="text-xs text-red-500">Personal email is required</p>} */}
+                    <input type="email" value={form.personalEmail} onChange={e => updateForm('personalEmail', e.target.value)} className="h-11 w-full rounded-lg border-slate-200 bg-slate-50 focus:border-primary focus:ring-primary dark:border-slate-800 dark:bg-slate-800/50" placeholder="Enter personal email (optional)" />
                   </div>
                   <div className="space-y-1.5">
                     <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Work Line (Phone)</label>

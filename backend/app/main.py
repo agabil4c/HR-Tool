@@ -270,7 +270,7 @@ class EmployeeOnboardingCreateRequest(BaseModel):
     maritalStatus: str = ""
     profilePhoto: str = ""
     nationalId: str = ""
-    personalEmail: str = Field(min_length=5)
+    personalEmail: str = ""
     workEmail: str = ""
     phone: str = ""
     workPhone: str = ""
@@ -1690,7 +1690,7 @@ def create_employee_with_user(
             "nationalId": payload.nationalId,
             "personalEmail": payload.personalEmail,
             "workEmail": payload.workEmail,
-            "email": payload.personalEmail,
+            "email": (payload.workEmail or payload.personalEmail).strip(),
             "phone": payload.phone or payload.workPhone or payload.personalPhone,
             "workPhone": payload.workPhone,
             "personalPhone": payload.personalPhone,

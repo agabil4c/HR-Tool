@@ -4032,12 +4032,28 @@ def create_employee_with_user_account(db: Session, payload: dict[str, Any]) -> d
     if (role_profile.name or "").strip().lower() == "super-admin":
         return {"error": "forbidden-role-profile"}
 
-    normalized_email = payload["email"].strip().lower()
-    existing_user = db.query(models.User).filter(func.lower(models.User.email) == normalized_email).first()
-    if existing_user:
-        return {"error": "email-exists"}
-
     full_name = payload["fullName"].strip()
+    raw_email = (
+        payload.get("email")
+        or payload.get("workEmail")
+        or payload.get("personalEmail")
+        or ""
+    ).strip().lower()
+
+    if raw_email:
+        normalized_email = raw_email
+        existing_user = db.query(models.User).filter(func.lower(models.User.email) == normalized_email).first()
+        if existing_user:
+            return {"error": "email-exists"}
+    else:
+        slug_base = re.sub(r"[^a-z0-9]+", ".", full_name.lower()).strip(".") or "staff"
+        candidate = f"{slug_base}@local.hr"
+        suffix = 1
+        while db.query(models.User).filter(func.lower(models.User.email) == candidate).first():
+            suffix += 1
+            candidate = f"{slug_base}.{suffix}@local.hr"
+        normalized_email = candidate
+
     temporary_password = (payload.get("temporaryPassword") or "").strip() or "TempPass@123"
 
     user_row = models.User(
